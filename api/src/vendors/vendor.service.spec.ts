@@ -5,6 +5,8 @@ import { Vendor } from './schemas/vendor.schema';
 import mongoose, { Model } from 'mongoose';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
+// TODO: Add test for pagination
+
 describe('VendorsService', () => {
   let service: VendorsService;
   let model: Model<Vendor>;
@@ -73,8 +75,17 @@ describe('VendorsService', () => {
 
   describe('findAll', () => {
     it('should return an array of vendors', async () => {
-      jest.spyOn(model, 'find').mockResolvedValue([mockVendor]);
-      const result = await service.findAll();
+      jest.spyOn(model, 'find').mockImplementation(
+        () =>
+          ({
+            limit: () => ({
+              skip: jest.fn().mockResolvedValue([mockVendor]),
+            }),
+          }) as any,
+      );
+
+      const result = await service.findAll({});
+      expect(model.find).toHaveBeenCalledWith();
       expect(result).toEqual([mockVendor]);
     });
   });
