@@ -14,6 +14,8 @@ import { Vendor } from './schemas/vendor.schema';
 import { CreateVendorDto } from './dto/create-vendor.dto';
 import { UpdateVendorDto } from './dto/update-vendor.dto';
 import { Public } from '../auth/decorators/public.decorator';
+import { Query as ExpressQuery } from 'express-serve-static-core';
+import { PaginatedVendor } from './types/paginated.type';
 
 @Controller('vendors')
 export class VendorsController {
@@ -21,8 +23,23 @@ export class VendorsController {
 
   @Public()
   @Get()
-  async getAllVendors(): Promise<Vendor[]> {
-    return this.vendorsService.findAll();
+  async getAllVendors(
+    @Query() query: ExpressQuery,
+  ): Promise<Vendor[] | PaginatedVendor> {
+    if (Object.keys(query).length) {
+      const total = await this.vendorsService.getCount();
+      const data = await this.vendorsService.findAll(query);
+      const limit = Number(query.limit) || 10;
+      const totalPages = Math.ceil(total / limit);
+
+      return {
+        count: total,
+        totalPages: totalPages,
+        vendors: data,
+      };
+    }
+
+    return this.vendorsService.findAll(query);
   }
 
   @Public()
