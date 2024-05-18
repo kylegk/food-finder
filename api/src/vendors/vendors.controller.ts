@@ -13,10 +13,7 @@ import { VendorsService } from './vendors.service';
 import { Vendor } from './schemas/vendor.schema';
 import { CreateVendorDto } from './dto/create-vendor.dto';
 import { UpdateVendorDto } from './dto/update-vendor.dto';
-import { Query as ExpressQuery } from 'express-serve-static-core';
 import { Public } from '../auth/decorators/public.decorator';
-
-// TODO: Add guards for appropriate routes (add, edit, rate)
 
 @Controller('vendors')
 export class VendorsController {
@@ -28,7 +25,16 @@ export class VendorsController {
     return this.vendorsService.findAll();
   }
 
-  @Post('vendors/add')
+  @Public()
+  @Get('vendor/:id')
+  async getVendorDetails(
+    @Param('id')
+    id: string,
+  ): Promise<Vendor> {
+    return this.vendorsService.findById(id);
+  }
+
+  @Post('vendor')
   async addVendor(
     @Body()
     vendor: CreateVendorDto,
@@ -36,39 +42,21 @@ export class VendorsController {
     return this.vendorsService.create(vendor);
   }
 
-  // @Post('book/add')
-  // async createBook(
-  //   @Body()
-  //   book: CreateBookDto,
-  // ): Promise<Book> {
-  //   return this.bookService.create(book);
-  // }
+  @Put('vendor/:id')
+  async updateVendor(
+    @Param('id')
+    id: string,
+    @Body()
+    vendor: UpdateVendorDto,
+  ): Promise<Vendor> {
+    return this.vendorsService.update(id, vendor);
+  }
 
-  // @Get('book/details/:id')
-  // async getBookDetails(
-  //   @Param('id')
-  //   id: string,
-  // ): Promise<Book> {
-  //   return this.bookService.findById(id);
-  // }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Put('book/update/:id')
-  // async updateBook(
-  //   @Param('id')
-  //   id: string,
-  //   @Body()
-  //   book: UpdateBookDto,
-  // ): Promise<Book> {
-  //   return this.bookService.update(id, book);
-  // }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Delete('book/remove/:id')
-  // async removeBook(
-  //   @Param('id')
-  //   id: string,
-  // ): Promise<void> {
-  //   return this.bookService.remove(id);
-  // }
+  @Delete('vendor/:id')
+  async removeBook(
+    @Param('id')
+    id: string,
+  ): Promise<void> {
+    return this.vendorsService.remove(id);
+  }
 }
