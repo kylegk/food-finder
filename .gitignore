@@ -71,4 +71,4 @@ out
 # Serverless Webpack directories
 .webpack/
 
-
+data/*

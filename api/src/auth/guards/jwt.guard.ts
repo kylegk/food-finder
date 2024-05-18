@@ -2,6 +2,8 @@ import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 
+// TODO: Update to use secret
+
 @Injectable()
 export class JwtGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector) {
