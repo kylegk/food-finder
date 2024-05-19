@@ -5,8 +5,6 @@ import { Vendor } from './schemas/vendor.schema';
 import mongoose, { Model } from 'mongoose';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
-// TODO: Add test for pagination
-
 describe('VendorsService', () => {
   let service: VendorsService;
   let model: Model<Vendor>;

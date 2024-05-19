@@ -70,7 +70,7 @@ export class VendorsController {
   }
 
   @Delete('vendor/:id')
-  async removeBook(
+  async removeVendor(
     @Param('id')
     id: string,
   ): Promise<void> {
