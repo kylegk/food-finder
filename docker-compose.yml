@@ -1,5 +1,7 @@
 version: '3'
 
+# TODO: The credentials for the services should be moved to an environment file
+
 services:  
   # Mongo DB
   mongo:

@@ -9,14 +9,13 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtGuard } from './auth/guards/jwt.guard';
 
-// TODO: Add config to uri
-
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
     }),
+    // TOOD: Credentials should be moved to an environment file
     MongooseModule.forRoot('mongodb://admin:secretpassword@mongo:27017', {
       dbName: 'app',
     }),
