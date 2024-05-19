@@ -12,7 +12,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=secretpassword    
     volumes:
       - /usr/data/db
-      - ./scripts:/docker-entrypoint-initdb.d
+      - ./scripts/db:/docker-entrypoint-initdb.d
     ports:
       - "27017:27017"      
 
