@@ -33,7 +33,7 @@ export class VendorsService {
       .find()
       .limit(limit)
       .skip(skip)
-      .select(EXCLUDE_FIELDS);
+      .select('locationId name facilityType');
   }
 
   async create(vendor: CreateVendorDto): Promise<Vendor> {

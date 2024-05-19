@@ -17,10 +17,9 @@ import { JwtGuard } from './auth/guards/jwt.guard';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    MongooseModule.forRoot(
-      process.env.MONGO_URI ||
-        'mongodb://api:supersecretpassword@localhost:27017/app',
-    ),
+    MongooseModule.forRoot('mongodb://admin:secretpassword@mongo:27017', {
+      dbName: 'app',
+    }),
     UsersModule,
     AuthModule,
     VendorsModule,

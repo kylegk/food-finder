@@ -1,12 +1,4 @@
-version: '3.8'
-
-# TODO: Add environment variables
-# Mongo Port
-# MONGO_INITDB_ROOT_PASSWORD
-# ME_CONFIG_MONGODB_ADMINPASSWORD
-# Mongo Express Port
-
-# Add auth for mongo-express (currently admin/pass)
+version: '3'
 
 services:  
   # Mongo DB
@@ -17,12 +9,26 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=secretpassword    
     volumes:
-      - ./data:/data/db
+      - /usr/data/db
       - ./scripts:/docker-entrypoint-initdb.d
     ports:
       - "27017:27017"      
 
-  # Database Manager
+  # Nest.js API
+  app:
+    build:
+      context: ./api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    environment:
+      MONGO_URI: mongodb://mongo:27017/library
+    volumes:
+        - ./api:/usr/src/app
+        - /usr/src/app/node_modules
+
+  # Database Manager Web Interface
   mongo-express:
     image: mongo-express:latest
     ports:
