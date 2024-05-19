@@ -4,7 +4,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
   timestamps: true,
 })
 export class Vendor {
-  @Prop()
+  @Prop({ required: true })
+  locationId: string;
+
+  @Prop({ required: true })
   name: string;
 
   @Prop()

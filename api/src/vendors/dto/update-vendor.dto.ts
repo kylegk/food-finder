@@ -1,31 +1,10 @@
-import { IsOptional, IsString } from 'class-validator';
-
 export class UpdateVendorDto {
-  @IsOptional()
-  @IsString()
-  readonly name: string;
-
-  @IsOptional()
-  @IsString()
+  locationId: string;
+  name: string;
   facilityType: string;
-
-  @IsOptional()
-  @IsString()
   locationDescription: string;
-
-  @IsOptional()
-  @IsString()
   foodItems: string;
-
-  @IsOptional()
-  @IsString()
   latitude: string;
-
-  @IsOptional()
-  @IsString()
   longitude: string;
-
-  @IsOptional()
-  @IsString()
   daysHours: string;
 }

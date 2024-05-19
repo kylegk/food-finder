@@ -7,7 +7,6 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { VendorsService } from './vendors.service';
 import { Vendor } from './schemas/vendor.schema';
@@ -15,7 +14,7 @@ import { CreateVendorDto } from './dto/create-vendor.dto';
 import { UpdateVendorDto } from './dto/update-vendor.dto';
 import { Public } from '../auth/decorators/public.decorator';
 import { Query as ExpressQuery } from 'express-serve-static-core';
-import { PaginatedVendor } from './types/paginated.type';
+import { PaginatedVendor } from './types/vendors.types';
 
 @Controller('vendors')
 export class VendorsController {
@@ -43,12 +42,12 @@ export class VendorsController {
   }
 
   @Public()
-  @Get('vendor/:id')
+  @Get('vendor/:locationId')
   async getVendorDetails(
-    @Param('id')
-    id: string,
+    @Param('locationId')
+    locationId: string,
   ): Promise<Vendor> {
-    return this.vendorsService.findById(id);
+    return await this.vendorsService.findByLocationId(locationId);
   }
 
   @Post('vendor')
@@ -59,21 +58,21 @@ export class VendorsController {
     return this.vendorsService.create(vendor);
   }
 
-  @Put('vendor/:id')
+  @Put('vendor/:locationId')
   async updateVendor(
-    @Param('id')
-    id: string,
+    @Param('locationId')
+    locationId: string,
     @Body()
     vendor: UpdateVendorDto,
   ): Promise<Vendor> {
-    return this.vendorsService.update(id, vendor);
+    return this.vendorsService.update(locationId, vendor);
   }
 
-  @Delete('vendor/:id')
+  @Delete('vendor/:locationId')
   async removeVendor(
-    @Param('id')
-    id: string,
+    @Param('locationId')
+    locationId: string,
   ): Promise<void> {
-    return this.vendorsService.remove(id);
+    return this.vendorsService.remove(locationId);
   }
 }

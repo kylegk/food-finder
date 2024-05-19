@@ -8,6 +8,7 @@ import { Vendor } from './schemas/vendor.schema';
 import { Model, isValidObjectId } from 'mongoose';
 import { CreateVendorDto } from './dto/create-vendor.dto';
 import { Query } from 'express-serve-static-core';
+export const EXCLUDE_FIELDS = '-_id -__v';
 
 @Injectable()
 export class VendorsService {
@@ -26,19 +27,32 @@ export class VendorsService {
     const limit = Number(query.limit) || 10;
     const skip = limit * (page - 1);
 
-    return await this.vendorModel.find().limit(limit).skip(skip);
+    // TODO: This should use a different set of fields
+
+    return await this.vendorModel
+      .find()
+      .limit(limit)
+      .skip(skip)
+      .select(EXCLUDE_FIELDS);
   }
 
   async create(vendor: CreateVendorDto): Promise<Vendor> {
-    return await this.vendorModel.create(vendor);
-  }
-
-  async findById(id: string): Promise<Vendor> {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException();
+    const existingLocation = await this.vendorModel.findOne({
+      locationId: vendor.locationId,
+    });
+    if (existingLocation) {
+      throw new BadRequestException('vendor location already exists');
     }
 
-    const vendor = await this.vendorModel.findById(id);
+    try {
+      return await this.vendorModel.create(vendor);
+    } catch (e) {
+      throw new BadRequestException(e?.message);
+    }
+  }
+
+  async findByLocationId(locationId: string): Promise<Vendor> {
+    const vendor = this.vendorModel.findOne({ locationId });
     if (!vendor) {
       throw new NotFoundException();
     }
@@ -46,22 +60,26 @@ export class VendorsService {
     return vendor;
   }
 
-  async update(id: string, vendor: Vendor): Promise<Vendor> {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException();
+  async update(locationId: string, vendor: Vendor): Promise<Vendor> {
+    const vendorToUpdate = await this.vendorModel.findOne({ locationId });
+    if (!vendorToUpdate) {
+      throw new NotFoundException();
     }
 
-    return await this.vendorModel.findByIdAndUpdate(id, vendor, {
-      new: true,
-      runValidators: true,
-    });
+    return await this.vendorModel
+      .findByIdAndUpdate(vendorToUpdate['_id'], vendor, {
+        new: true,
+        runValidators: true,
+      })
+      .select(EXCLUDE_FIELDS);
   }
 
-  async remove(id: string): Promise<void> {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException();
+  async remove(locationId: string): Promise<void> {
+    const vendorToRemove = await this.vendorModel.findOne({ locationId });
+    if (!vendorToRemove) {
+      throw new NotFoundException();
     }
 
-    await this.vendorModel.findByIdAndDelete(id);
+    await this.vendorModel.findByIdAndDelete(vendorToRemove['_id']);
   }
 }

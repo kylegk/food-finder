@@ -7,16 +7,16 @@ export class User {
   @Prop()
   id?: string;
 
-  @Prop({ unique: true })
+  @Prop({ required: true })
   email: string;
 
-  @Prop()
+  @Prop({ required: true })
   password: string;
 
-  @Prop()
+  @Prop({ required: true })
   firstName: string;
 
-  @Prop()
+  @Prop({ required: true })
   lastName: string;
 }
 
