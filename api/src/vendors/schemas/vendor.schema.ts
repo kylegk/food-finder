@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { VendorFacilityType } from '../types/facility';
 
 @Schema({
   timestamps: true,
@@ -10,8 +11,8 @@ export class Vendor {
   @Prop({ required: true })
   name: string;
 
-  @Prop()
-  facilityType: string;
+  @Prop({ type: String, enum: VendorFacilityType })
+  facilityType: VendorFacilityType;
 
   @Prop()
   locationDescription: string;

@@ -2,8 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { VendorsService } from './vendors.service';
 import { getModelToken } from '@nestjs/mongoose';
 import { Vendor } from './schemas/vendor.schema';
-import mongoose, { Model } from 'mongoose';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { VendorFacilityType } from './types/facility';
 
 describe('VendorsService', () => {
   let service: VendorsService;
@@ -22,7 +22,7 @@ describe('VendorsService', () => {
     _id: 'fake-object-id',
     locationId: '12345',
     name: 'Taco Truck',
-    facilityType: 'truck',
+    facilityType: VendorFacilityType.Truck,
     locationDescription: 'The best taco truck on the planet',
     foodItems: 'tacos, tacos, and more tacos',
     latitude: '-12345',
@@ -54,7 +54,7 @@ describe('VendorsService', () => {
         _id: 'another-fake-object-id',
         locationId: '123456',
         name: 'New Taco Truck',
-        facilityType: 'truck',
+        facilityType: VendorFacilityType.Truck,
         locationDescription: 'The newest taco truck on the planet',
         foodItems: 'tacos',
         latitude: '-12345',

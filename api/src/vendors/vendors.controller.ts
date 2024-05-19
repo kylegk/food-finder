@@ -14,7 +14,7 @@ import { CreateVendorDto } from './dto/create-vendor.dto';
 import { UpdateVendorDto } from './dto/update-vendor.dto';
 import { Public } from '../auth/decorators/public.decorator';
 import { Query as ExpressQuery } from 'express-serve-static-core';
-import { PaginatedVendor } from './types/vendors.types';
+import { PaginatedVendor } from './types/pagination';
 
 @Controller('vendors')
 export class VendorsController {
