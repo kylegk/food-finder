@@ -52,7 +52,7 @@ describe('VendorsService', () => {
       expect(result).toEqual(mockVendor);
     });
 
-    it('should throw BadRequestExepction if an invalid vendor Id is provided', async () => {
+    it('should throw BadRequestExepction if an invalid vendor id is provided', async () => {
       const id = 'this-is-an-invalid-id';
 
       const isValidObjectIdMock = jest
@@ -90,10 +90,29 @@ describe('VendorsService', () => {
     });
   });
 
+  describe('create', () => {
+    it('should create a vendor', async () => {
+      const newTruckName = 'New Taco Truck';
+      const createVendor = {
+        name: newTruckName,
+        facilityType: 'truck',
+        locationDescription: 'The newest taco truck on the planet',
+        foodItems: 'tacos',
+        latitude: '-12345',
+        longitude: '-12345',
+        daysHours: '24/7/365',
+      };
+      const vendor = { name: newTruckName };
+
+      const result = await service.create(createVendor);
+    });
+  });
+
   describe('update', () => {
     it('should update and return a vendor', async () => {
-      const updatedVendor = { ...mockVendor, name: 'Updated Truck Name' };
-      const vendor = { name: 'Updated Truck Name' };
+      const updatedTruckName = 'Updated Truck Name';
+      const updatedVendor = { ...mockVendor, name: updatedTruckName };
+      const vendor = { name: updatedTruckName };
 
       jest.spyOn(model, 'findByIdAndUpdate').mockResolvedValue(updatedVendor);
 
