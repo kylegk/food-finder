@@ -2,10 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { getModelToken } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
-import mongoose, { Model } from 'mongoose';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
-
-// TODO: Add test for pagination
+import { Model } from 'mongoose';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -13,10 +10,6 @@ describe('UsersService', () => {
 
   const mockUsersService = {
     findById: jest.fn(),
-    // find: jest.fn(),
-    // create: jest.fn(),
-    // findByIdAndUpdate: jest.fn(),
-    // findByIdAndDelete: jest.fn(),
   };
 
   const mockUser = {
