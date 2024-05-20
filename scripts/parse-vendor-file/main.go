@@ -135,13 +135,12 @@ func parseCSVFile(csvFile string, outFilePath string) error {
 	// Convert to JSON
 	jsonData, err := json.Marshal(objs)
 	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal("Error converting CSV to JSON")
 	}
 
 	jsonFile, err := os.Create(outFilePath)
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal("Error writing JSON to disk")
 	}
 	defer jsonFile.Close()
 
