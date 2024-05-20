@@ -1,4 +1,5 @@
 export enum VendorFacilityType {
   Truck = 'truck',
-  Cart = 'card',
+  Cart = 'cart',
+  Unknown = 'unknown',
 }
