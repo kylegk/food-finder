@@ -7,7 +7,7 @@ import { LocalStrategy } from './strategy/local.strategy';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
-// TODO: Implement the scret and token stuff
+// TODO: Implement secret and token expiration in an environment file/config getter
 
 @Module({
   imports: [
@@ -19,10 +19,6 @@ import { JwtStrategy } from './strategy/jwt.strategy';
         secret: 'supersecretpassword',
         signOptions: {
           expiresIn: parseInt('3600'),
-          // TODO: Figure this out
-          // configService.getOrThrow<string>(
-          //   'ACCESS_TOKEN_VALIDITY_DURATION_IN_SEC',
-          // ),
         },
       }),
       inject: [ConfigService],
